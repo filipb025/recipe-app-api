@@ -54,7 +54,8 @@ class PrivateRecipeAPITests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = create_user(email='email@example.com', password='password123')
+        self.user = create_user(email='email@example.com',
+                                password='password123')
         self.client.force_authenticate(self.user)
 
     def test_retrieve_recipes(self):
@@ -92,7 +93,8 @@ class PrivateRecipeAPITests(TestCase):
 
     def test_create_recipe(self):
         """ Test creating a recipe """
-        payload = {'title': 'Sample recipe', 'time_minutes': 30, 'price': Decimal('5.50')}
+        payload = {'title': 'Sample recipe',
+                   'time_minutes': 30, 'price': Decimal('5.50')}
         res = self.client.post(RECIPES_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
@@ -104,7 +106,8 @@ class PrivateRecipeAPITests(TestCase):
     def test_partial_update(self):
         """ Test partial update of a recipe """
         original_link = 'https://example.com/recipe.pdf'
-        recipe = create_recipe(user=self.user, title='Sample recipe', link=original_link)
+        recipe = create_recipe(user=self.user,
+                               title='Sample recipe', link=original_link)
         payload = {'title': 'New RECIPE title'}
         url = detail_url(recipe.id)
         res = self.client.patch(url, payload)
@@ -119,7 +122,8 @@ class PrivateRecipeAPITests(TestCase):
         recipe = create_recipe(user=self.user, title='Sample recipe',
                                link='https://example.com/recipe.pdf',
                                description='Sample description')
-        payload = {'title': 'new recipe title', 'link': "https://example.com/new-recipe.pdf",
+        payload = {'title': 'new recipe title',
+                   'link': "https://example.com/new-recipe.pdf",
                    'description': 'new recipe description',
                    'time_minutes': 10,
                    'price': Decimal('2.50')}
