@@ -21,11 +21,18 @@ services:
       - DB_PASS=changeme
     depends_on:
       - db
+    links:
+      - db
 
   db:
     image: postgres:13-alpine
     volumes:
       - dev-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-q", "-d", devdb, "-U", devuser ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     environment:
       - POSTGRES_DB=devdb
       - POSTGRES_USER=devuser
